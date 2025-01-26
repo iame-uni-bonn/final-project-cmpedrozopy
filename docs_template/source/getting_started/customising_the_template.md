@@ -3,10 +3,9 @@ meet your specific needs.
 
 ### First step: Rename the project
 
-Open the entire directory in VS Code. Search for `template_project` in the entire
-codebase and replace it with `new_project_name`, i.e., a concise version of your
-project's name (often called a "slug"). Rename the folder `src/template_project` to
-`src/<new_project_name>`!
+Open the entire directory in VS Code. Search for `project_mp` in the entire codebase and
+replace it with `new_project_name`, i.e., a concise version of your project's name
+(often called a "slug"). Rename the folder `src/project_mp` to `src/<new_project_name>`!
 
 ```{warning}
 Your project slug `new_project_name` must be a valid Python identifier, i.e., it must
@@ -24,7 +23,7 @@ attributed to changes you make rather than the original template.
    dependencies:
 
    ```console
-   $ cd /to/root/of/template_project
+   $ cd /to/root/of/project_mp
    $ mamba env create
    ```
 
