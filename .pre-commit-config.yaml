@@ -1,4 +1,5 @@
 ---
+exclude: .*\.ipynb$
 repos:
   - repo: meta
     hooks:
