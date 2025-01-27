@@ -34,4 +34,4 @@ dependencies:
   - r-forcats
 
   # Install project
-  - pip: [-e ., pdbp, kaleido, geopandas, geopy]
+  - pip: [-e ., pdbp, kaleido, geopandas, geopy, pyreadstat]
