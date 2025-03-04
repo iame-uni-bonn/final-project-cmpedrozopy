@@ -23,16 +23,13 @@ def task_process_shapefiles():
     
     root_dir = SRC / "data" / "shape_files"
     output_dir = BLD / "data"
-    #output_dir.mkdir(parents=True, exist_ok=True)  # Ensure BLD/data exists
 
-    if not root_dir.exists():
-        raise FileNotFoundError(f"Directory {root_dir} does not exist.")
-    
     shapefiles = [file for file in os.listdir(root_dir) if file.endswith(".shp") and file.startswith("Distritos_")]
-    
+
     for file in shapefiles:
         department_path = root_dir / file
-        output_file = output_dir  / f"{file.replace('.shp', '.pkl')}" # #/ f"{file.replace('.shp', '.pkl')}"  # Ensure CSVs are saved in BLD/data
-        shape_to_csv(department_path, output_file)
-        #shape_file = pd.read_csv(output_file)
-        #shape_file.to_pickle(output_file)
+        output_file = output_dir / file.replace(".shp", ".pkl")  # Corrected file naming
+
+        shape_to_csv(department_path, output_file)  # Calls the function
+        processed_shape = pd.read_csv(output_file)
+        processed_shape.to_pickle(output_file)
