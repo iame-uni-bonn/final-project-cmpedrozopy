@@ -1,4 +1,6 @@
 import pandas as pd
+import os   
+import geopandas as gpd
 
 
 def process_distance_data(input_file, output_file):
@@ -17,24 +19,30 @@ def process_distance_data(input_file, output_file):
     return distance_df
 
 # Define the function to process shapefiles
-def shape_to_csv(department_path):
-    # Read and reproject the shp files
+def shape_to_csv(department_path, output_pickle):
+    """Convert a shapefile to a pickle file, extracting centroid coordinates."""
+    
+    # Read and reproject the shapefile
     shape = gpd.read_file(department_path)
     shape = shape.to_crs(epsg=4326)
+
     # Calculate the centroid and extract the longitude and latitude
-    shape['centroid'] = shape.centroid
-    shape['longitude'] = shape['centroid'].x
-    shape['latitude'] = shape['centroid'].y
-    # Save as CSV in the same folder as the shapefile for easier access
-    output_csv = department_path.replace(".shp", ".csv")
-    shape.to_csv(output_csv, index=False)
+    shape["centroid"] = shape.centroid
+    shape["longitude"] = shape["centroid"].x
+    shape["latitude"] = shape["centroid"].y
+    shape.drop(columns=["centroid"], inplace=True)  # Remove geometry column
+
+    # Save as Pickle
+    shape.to_pickle(output_pickle)
+    
+    return shape
 
 # Root directory containing the folders and shapefiles
-root_dir = "Users/moisespedrozo/Bonn/epp/shape_files"
+#root_dir = "Users/moisespedrozo/Bonn/epp/shape_files"
 
 # Go through all subdirectories and apply the function
-for root, dirs, files in os.walk(root_dir):
-    for file in files:
-        if file.endswith(".shp") and file.startswith("Distritos_"):
-            department_path = os.path.join(root, file) 
-            shape_to_csv(department_path)
+#for root, dirs, files in os.walk(root_dir):
+ #   for file in files:
+  #      if file.endswith(".shp") and file.startswith("Distritos_"):
+   #         department_path = os.path.join(root, file) 
+    #        shape_to_csv(department_path)
