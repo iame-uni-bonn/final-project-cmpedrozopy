@@ -1,6 +1,7 @@
 # Pytask for processing the distance data
 import pandas as pd
 import os
+import geopandas as gpd
 
 from project_mp.config import BLD, SRC
 from project_mp.data_management.process_distance_data import (
@@ -18,18 +19,13 @@ def task_process_distance_data(
     processed_data = pd.read_csv(produces, encoding="latin1")
     processed_data.to_pickle(produces)
 
-def task_process_shapefiles():
+def task_process_shapefiles(
+    script = SRC / "data_management" / "process_distance_data.py",  
+    root_dir = SRC / "data" / "Distritos_Alto_Parana.shp",
+    output_dir = BLD / "data" / "alto_parana.pickle",
+):
     """Convert shapefiles to CSV format, extracting centroid coordinates."""
-    
-    root_dir = SRC / "data" / "shape_files"
-    output_dir = BLD / "data"
-
-    shapefiles = [file for file in os.listdir(root_dir) if file.endswith(".shp") and file.startswith("Distritos_")]
-
-    for file in shapefiles:
-        department_path = root_dir / file
-        output_file = output_dir / file.replace(".shp", ".pkl")  # Corrected file naming
-
-        shape_to_csv(department_path, output_file)  # Calls the function
-        processed_shape = pd.read_csv(output_file)
-        processed_shape.to_pickle(output_file)
+    #shapefiles = [file for file in os.listdir(root_dir) if file.endswith(".shp") and file.startswith("Distritos_")]
+    data = gpd.read_file(root_dir)
+    data = shape_to_csv(data, output_dir)
+    data.to_pickle(output_dir)

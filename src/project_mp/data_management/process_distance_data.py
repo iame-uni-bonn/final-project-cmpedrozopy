@@ -31,10 +31,7 @@ def shape_to_csv(department_path, output_pickle):
     shape["longitude"] = shape["centroid"].x
     shape["latitude"] = shape["centroid"].y
     shape.drop(columns=["centroid"], inplace=True)  # Remove geometry column
-
     # Save as Pickle
-    shape.to_pickle(output_pickle)
-    
     return shape
 
 # Root directory containing the folders and shapefiles
